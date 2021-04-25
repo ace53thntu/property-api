@@ -1,12 +1,27 @@
-import { Module } from '@nestjs/common';
+import { APP_INTERCEPTOR } from '@nestjs/core';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
-import { CoreModule } from './core/core.module';
 import { CatsModule } from './cats/cats.module';
+import { ConfigModule } from '@nestjs/config';
+import { Module } from '@nestjs/common';
+import { ResponseTransformInterceptor } from './common/interceptors/response-transform.interceptor';
+import appConfig from './config/app.config';
 
 @Module({
-  imports: [CoreModule, CatsModule],
+  imports: [
+    ConfigModule.forRoot({
+      isGlobal: true,
+      load: [appConfig],
+    }),
+    CatsModule,
+  ],
   controllers: [AppController],
-  providers: [AppService],
+  providers: [
+    AppService,
+    {
+      provide: APP_INTERCEPTOR,
+      useClass: ResponseTransformInterceptor,
+    },
+  ],
 })
 export class AppModule {}

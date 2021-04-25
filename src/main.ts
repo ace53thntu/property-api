@@ -8,15 +8,13 @@ import {
   ExpressAdapter,
   NestExpressApplication,
 } from '@nestjs/platform-express';
-import {
-  HttpStatus,
-  UnprocessableEntityException,
-  ValidationPipe,
-} from '@nestjs/common';
+import { HttpStatus, ValidationPipe } from '@nestjs/common';
 
 import { AppModule } from './app.module';
+import { ConfigService } from '@nestjs/config';
 import { HttpExceptionFilter } from './common/filters/http-exception.filter';
 import { NestFactory } from '@nestjs/core';
+import { setupSwagger } from './setup-swagger';
 
 async function bootstrap() {
   const app = await NestFactory.create<NestExpressApplication>(
@@ -26,6 +24,8 @@ async function bootstrap() {
       cors: true,
     },
   );
+
+  const configService = app.get(ConfigService);
 
   app.enable('trust proxy'); // only if you're behind a reverse proxy (Heroku, Bluemix, AWS ELB, Nginx, etc)
   app.use(helmet());
@@ -46,12 +46,18 @@ async function bootstrap() {
       whitelist: true,
       transform: true,
       forbidNonWhitelisted: true,
-      // dismissDefaultMessages: true,
       errorHttpStatusCode: HttpStatus.UNPROCESSABLE_ENTITY,
+      // dismissDefaultMessages: true,
       // exceptionFactory: (errors) => new UnprocessableEntityException(errors),
     }),
   );
 
-  await app.listen(3000);
+  app.setGlobalPrefix('v1');
+
+  setupSwagger(app);
+
+  const port = configService.get<number>('port');
+  await app.listen(port);
+  console.log(`Application is running on: ${await app.getUrl()}`);
 }
 bootstrap();
