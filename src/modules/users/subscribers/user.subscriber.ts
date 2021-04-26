@@ -26,7 +26,10 @@ export class UserSubscriber implements EntitySubscriberInterface<UserEntity> {
   }
 
   async beforeUpdate(event: UpdateEvent<UserEntity>) {
-    if (event.entity.password !== event.databaseEntity.password) {
+    if (
+      event.entity.password &&
+      event.entity.password !== event.databaseEntity.password
+    ) {
       event.entity.password = await argon2.hash(event.entity.password);
     }
   }
