@@ -34,6 +34,11 @@ export class UsersController {
     return plainToClass(UserEntity, createdUser);
   }
 
+  @Get(':id')
+  findOne(@Param('id') id: EntityId): Promise<UserEntity> {
+    return this.usersService.findById(id);
+  }
+
   @Patch(':id')
   async update(
     @Param('id') id: EntityId,
