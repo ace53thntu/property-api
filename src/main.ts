@@ -18,6 +18,7 @@ import { ConfigService } from '@nestjs/config';
 import { HttpExceptionFilter } from './common/filters/http-exception.filter';
 import { NestFactory } from '@nestjs/core';
 import { setupSwagger } from './setup-swagger';
+import { useContainer } from 'class-validator';
 
 async function bootstrap() {
   const app = await NestFactory.create<NestExpressApplication>(
@@ -43,6 +44,10 @@ async function bootstrap() {
   app.use(responseTime());
 
   app.useGlobalFilters(new HttpExceptionFilter());
+
+  useContainer(app.select(AppModule), {
+    fallbackOnErrors: true,
+  });
 
   app.useGlobalPipes(
     new ValidationPipe({

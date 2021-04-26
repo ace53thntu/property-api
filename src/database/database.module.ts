@@ -3,6 +3,7 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
 import { Module } from '@nestjs/common';
 import { PostgresConnectionOptions } from 'typeorm/driver/postgres/PostgresConnectionOptions';
 import { TypeOrmModule } from '@nestjs/typeorm';
+import { Unique } from '@common/validators/unique.validator';
 
 @Module({
   imports: [
@@ -29,5 +30,6 @@ import { TypeOrmModule } from '@nestjs/typeorm';
       },
     }),
   ],
+  providers: [Unique],
 })
 export class DatabaseModule {}

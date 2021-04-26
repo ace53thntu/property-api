@@ -10,13 +10,13 @@ import { StatusType } from '@common/constants/status';
   name: 'users',
 })
 export class UserEntity extends AbstractEntity {
-  @Column({ nullable: true })
+  @Column({ nullable: true, length: 255 })
   firstName: string;
 
-  @Column({ nullable: true })
+  @Column({ nullable: true, length: 255 })
   lastName: string;
 
-  @Column({ nullable: true, unique: true })
+  @Column({ nullable: true, unique: true, length: 255 })
   email: string;
 
   @Exclude()
