@@ -27,8 +27,9 @@ export class BaseService<T extends BaseEntity, R extends Repository<T>>
     return this.repository.save(data);
   }
 
-  update(id: EntityId, data: Partial<T> | any): Promise<T> {
-    return this.repository.update(id, data).then((result) => result.raw[0]);
+  async update(id: EntityId, data: Partial<T> | any): Promise<T> {
+    await this.repository.update(id, data);
+    return this.findById(id);
   }
 
   delete(id: EntityId): Promise<DeleteResult> {
