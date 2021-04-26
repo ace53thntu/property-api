@@ -29,10 +29,13 @@
     "@nestjs/common": "^7.6.15",
     "@nestjs/config": "^0.6.3",
     "@nestjs/core": "^7.6.15",
+    "@nestjs/jwt": "^7.2.0",
     "@nestjs/mapped-types": "*",
+    "@nestjs/passport": "^7.1.5",
     "@nestjs/platform-express": "^7.6.15",
     "@nestjs/swagger": "^4.8.0",
     "@nestjs/typeorm": "^7.1.5",
+    "@types/passport-local": "^1.0.33",
     "argon2": "^0.27.2",
     "class-transformer": "^0.4.0",
     "class-validator": "^0.13.1",
@@ -42,6 +45,9 @@
     "lodash": "^4.17.21",
     "module-alias": "^2.2.2",
     "morgan": "^1.10.0",
+    "passport": "^0.4.1",
+    "passport-jwt": "^4.0.0",
+    "passport-local": "^1.0.0",
     "pg": "^8.6.0",
     "reflect-metadata": "^0.1.13",
     "response-time": "^2.3.2",
@@ -61,6 +67,7 @@
     "@types/lodash": "^4.14.168",
     "@types/morgan": "^1.9.2",
     "@types/node": "^14.14.36",
+    "@types/passport-jwt": "^3.0.5",
     "@types/response-time": "^2.3.4",
     "@types/supertest": "^2.0.10",
     "@typescript-eslint/eslint-plugin": "^4.19.0",
@@ -99,6 +106,7 @@
   },
   "_moduleAliases": {
     "@config": "dist/src/config/",
-    "@common": "dist/src/common/"
+    "@common": "dist/src/common/",
+    "@modules": "dist/src/modules/"
   }
 }
