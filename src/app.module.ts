@@ -6,6 +6,7 @@ import { ConfigModule } from '@nestjs/config';
 import { DatabaseModule } from './database/database.module';
 import { Module } from '@nestjs/common';
 import { ResponseTransformInterceptor } from './common/interceptors/response-transform.interceptor';
+import { UsersModule } from './modules/users/users.module';
 import appConfig from './config/app.config';
 import databaseConfig from './config/database.config';
 
@@ -17,6 +18,7 @@ import databaseConfig from './config/database.config';
     }),
     DatabaseModule,
     CatsModule,
+    UsersModule,
   ],
   controllers: [AppController],
   providers: [
