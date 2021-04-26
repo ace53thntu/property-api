@@ -2,7 +2,9 @@ import {
   Body,
   ClassSerializerInterceptor,
   Controller,
+  Delete,
   Get,
+  NotFoundException,
   Param,
   Patch,
   Post,
@@ -11,6 +13,8 @@ import {
 
 import { ApiTags } from '@nestjs/swagger';
 import { plainToClass } from 'class-transformer';
+import { isEmpty } from 'lodash';
+import { DeleteResult } from 'typeorm';
 import { EntityId } from 'typeorm/repository/EntityId';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
@@ -35,8 +39,12 @@ export class UsersController {
   }
 
   @Get(':id')
-  findOne(@Param('id') id: EntityId): Promise<UserEntity> {
-    return this.usersService.findById(id);
+  async findOne(@Param('id') id: EntityId): Promise<UserEntity> {
+    const user = await this.usersService.findById(id);
+    if (isEmpty(user)) {
+      throw new NotFoundException('User not found.');
+    }
+    return user;
   }
 
   @Patch(':id')
@@ -44,6 +52,21 @@ export class UsersController {
     @Param('id') id: EntityId,
     @Body() updateUserDto: UpdateUserDto,
   ): Promise<UserEntity> {
+    const user = await this.usersService.findById(id);
+    if (isEmpty(user)) {
+      throw new NotFoundException('User not found.');
+    }
     return this.usersService.update(id, updateUserDto);
+  }
+
+  @Delete(':id')
+  async remove(@Param('id') id: EntityId): Promise<DeleteResult> {
+    const user = await this.usersService.findById(id);
+    if (isEmpty(user)) {
+      throw new NotFoundException('User not found.');
+    }
+    await this.usersService.delete(id);
+
+    return null;
   }
 }
