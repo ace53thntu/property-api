@@ -1,3 +1,6 @@
+import 'reflect-metadata';
+import 'module-alias/register';
+
 import * as RateLimit from 'express-rate-limit';
 import * as compression from 'compression';
 import * as helmet from 'helmet';
