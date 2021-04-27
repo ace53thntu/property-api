@@ -2,9 +2,9 @@ import { Column, Entity } from 'typeorm';
 import { Exclude, Expose } from 'class-transformer';
 
 import { AbstractEntity } from '@common/entity/abstract.entity';
-import { GenderType } from '@common/constants/gender';
-import { RoleType } from '@common/constants/role';
-import { StatusType } from '@common/constants/status';
+import { GenderEnum } from '@common/constants/gender.enum';
+import { RoleEnum } from '@common/constants/role.enum';
+import { StatusEnum } from '@common/constants/status.enum';
 
 @Entity({
   name: 'users',
@@ -29,13 +29,13 @@ export class UserEntity extends AbstractEntity {
   @Column({ nullable: true })
   avatar: string;
 
-  @Column({ type: 'enum', enum: GenderType, default: GenderType.MALE })
+  @Column({ type: 'enum', enum: GenderEnum, default: GenderEnum.MALE })
   gender: string;
 
-  @Column({ type: 'enum', enum: StatusType, default: StatusType.ACTIVE })
+  @Column({ type: 'enum', enum: StatusEnum, default: StatusEnum.ACTIVE })
   status: string;
 
-  @Column({ type: 'enum', enum: RoleType, default: RoleType.USER })
+  @Column({ type: 'enum', enum: RoleEnum, default: RoleEnum.USER })
   role: string;
 
   constructor(partial: Partial<UserEntity>) {
